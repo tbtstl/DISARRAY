@@ -27,6 +27,15 @@ export default function Root({ children }) {
             fontFamily: "Work Sans",
             textTransform: "uppercase",
           },
+          button: {
+            background: "none",
+            color: "inherit",
+            border: "none",
+            padding: 0,
+            font: "inherit",
+            cursor: "pointer",
+            outline: "inherit",
+          },
         }}
       />
       <Flex sx={sx.container}>

@@ -30,6 +30,16 @@ export default {
       fontWeight: "body",
     },
   },
+  get button() {
+    return {
+      padding: "5px 10px",
+      flexShrink: 1,
+      border: `1px solid ${this.colors.text}`,
+      lineHeight: "42px",
+      alignItems: "center",
+      "&:hover": this.hover,
+    };
+  },
 };
 
 export type SX = {

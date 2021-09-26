@@ -21,14 +21,14 @@ export default function Nav() {
       </Link>
       {status === Web3Status.READY ? (
         <Link href={"/manage"}>
-          <Flex sx={sx.button} as="a">
+          <Flex sx={theme.button} as="a">
             <Blinker />
             {friendlyName}
           </Flex>
         </Link>
       ) : (
         <Box
-          sx={sx.button}
+          sx={theme.button}
           onClick={() => {
             openModal(ModalType.WEB3_CONNECT);
           }}
@@ -56,13 +56,5 @@ const sx: SX = {
     flexGrow: 1,
     fontSize: "36px",
     cursor: "pointer",
-  },
-  button: {
-    padding: "5px 10px",
-    flexShrink: 1,
-    border: `1px solid ${theme.colors.text}`,
-    lineHeight: "42px",
-    alignItems: "center",
-    "&:hover": theme.hover,
   },
 };
