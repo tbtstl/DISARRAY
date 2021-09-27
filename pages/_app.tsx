@@ -6,6 +6,7 @@ import theme from '../styles/theme';
 import ModalManager from '../providers/ModalManager';
 import { Web3ReactProvider } from '@web3-react/core';
 import MintManager from '../providers/MintManager';
+import FetchManager from '../providers/FetchManager';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -13,9 +14,11 @@ export default function App({ Component, pageProps }: AppProps) {
       <Web3ReactManager>
         <ThemeProvider theme={theme}>
           <MintManager>
-            <ModalManager>
-              <Component {...pageProps} />
-            </ModalManager>
+            <FetchManager>
+              <ModalManager>
+                <Component {...pageProps} />
+              </ModalManager>
+            </FetchManager>
           </MintManager>
         </ThemeProvider>
       </Web3ReactManager>

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useState } from 'react';
+import { createContext, useCallback, useEffect, useState } from 'react';
 import { testScript } from '../utils/constants/testSketch';
 
 export interface MintManagerState {
@@ -7,6 +7,7 @@ export interface MintManagerState {
   image?: string;
   name?: string;
   description?: string;
+  ready: boolean;
 }
 
 export const MintManagerContext = createContext<MintManagerState>(
@@ -14,7 +15,10 @@ export const MintManagerContext = createContext<MintManagerState>(
 );
 
 export default function MintManager({ children }) {
-  const [state, setState] = useState<MintManagerState>({ script: testScript });
+  const [state, setState] = useState<MintManagerState>({
+    script: testScript,
+    ready: false,
+  });
 
   const setScript = useCallback(
     (script: string) => {
@@ -45,6 +49,12 @@ export default function MintManager({ children }) {
     [setState, state]
   );
 
+  useEffect(() => {
+    if (state.name && state.image && state.script && !state.ready) {
+      setState({ ...state, ready: true });
+    }
+  }, [state, setState]);
+
   const prepareMintData = useCallback(() => {
     const data = {
       image: state.image,
@@ -53,8 +63,9 @@ export default function MintManager({ children }) {
       name: state.name,
       animation_url: state.htmlData,
     };
+    console.log(data.image);
     const dataJSONString = JSON.stringify(data);
-    return `application/json;base64,${Buffer.from(dataJSONString).toString(
+    return `data:application/json;base64,${Buffer.from(dataJSONString).toString(
       'base64'
     )}`;
   }, [state]);
@@ -71,6 +82,7 @@ export default function MintManager({ children }) {
         name: state.name,
         description: state.description,
         htmlData: state.htmlData,
+        ready: state.ready,
       }}
     >
       {children}

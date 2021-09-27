@@ -3,12 +3,13 @@ import { useMint } from '../../hooks/useMint';
 import { Box } from '@theme-ui/components';
 import theme from '../../styles/theme';
 import { ChaosPreview } from '../ChaosPreview';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useWeb3 } from '../../hooks/useWeb3';
 import { Chaos, Chaos__factory } from '../../typechain';
 import { useRouter } from 'next/router';
 
 enum MintingState {
+  NOT_READY = 'NOT_READY',
   READY = 'READY',
   ERROR = 'ERROR',
   BROADCASTED = 'BROADCASTED',
@@ -16,14 +17,23 @@ enum MintingState {
 }
 
 export default function MintConfirmModal() {
-  const { name, prepareMintData } = useMint();
+  const { name, prepareMintData, ready } = useMint();
   const { library, account } = useWeb3();
   const router = useRouter();
   const [mintingState, setMintingState] = useState<MintingState>(
-    MintingState.READY
+    MintingState.NOT_READY
   );
 
+  useEffect(() => {
+    if (ready && mintingState === MintingState.NOT_READY) {
+      setMintingState(MintingState.READY);
+    }
+  }, [ready, mintingState, setMintingState]);
+
   const handleMint = useCallback(async () => {
+    if (mintingState === MintingState.NOT_READY) {
+      return;
+    }
     if (!account) {
       console.error('No account found');
       setMintingState(MintingState.ERROR);
@@ -55,6 +65,8 @@ export default function MintConfirmModal() {
 
   let buttonText;
   switch (mintingState) {
+    case MintingState.NOT_READY:
+      'PREPARING...';
     case MintingState.BROADCASTED:
       buttonText = 'AWAITING CONFIRMATION';
     case MintingState.CONFIRMED:

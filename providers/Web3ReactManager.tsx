@@ -12,6 +12,7 @@ import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import useAsyncEffect from 'use-async-effect';
 import { getFriendlyAddress } from '../utils/web3/addresses';
+import { JsonRpcProvider } from '@ethersproject/providers';
 
 export enum Web3Status {
   NOT_READY = 'NOT_READY',

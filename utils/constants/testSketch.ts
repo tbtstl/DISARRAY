@@ -37,7 +37,8 @@ const baseHtml = `<html>
           var canvases = document.getElementsByTagName('canvas')
           var image = "data:"
           if(canvases.length) {
-            image = canvases[canvases.length - 1].toDataURL()
+            // Take a super super tiny image
+            image = canvases[canvases.length - 1].toDataURL('image/jpeg', 0.0000000001)
           }
           window.parent.postMessage([POST_IMAGE, image], "*");
         }
