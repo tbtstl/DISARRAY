@@ -1,4 +1,3 @@
-import { testScript } from '../utils/constants/testSketch';
 import dynamic from 'next/dynamic';
 import '@uiw/react-textarea-code-editor/dist.css';
 import { useCallback, useState } from 'react';
@@ -7,18 +6,16 @@ import theme from '../styles/theme';
 import { useWeb3 } from '../hooks/useWeb3';
 import { useModal } from '../hooks/useModal';
 import { ModalType } from '../providers/ModalManager';
+import { useMint } from '../hooks/useMint';
 
 const CodeEditor = dynamic(
   () => import('@uiw/react-textarea-code-editor').then((mod) => mod.default),
   { ssr: false }
 );
 
-export interface SketchEditorProps {
-  onCodeRun: (code: string) => void;
-}
-
-export default function SketchEditor({ onCodeRun }: SketchEditorProps) {
-  const [code, setCode] = useState<string>(testScript);
+export default function SketchEditor() {
+  const { script, setScript } = useMint();
+  const [code, setCode] = useState<string>(script);
   const { account } = useWeb3();
   const { openModal } = useModal();
 
@@ -27,7 +24,7 @@ export default function SketchEditor({ onCodeRun }: SketchEditorProps) {
   }, []);
 
   const handleRunClick = useCallback(() => {
-    onCodeRun(code);
+    setScript(code);
   }, [code]);
 
   const handleMintClick = useCallback(() => {
@@ -41,7 +38,7 @@ export default function SketchEditor({ onCodeRun }: SketchEditorProps) {
   return (
     <>
       <CodeEditor
-        value={testScript}
+        value={script}
         language="js"
         placeholder="Please enter JS code."
         padding={15}
