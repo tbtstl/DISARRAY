@@ -3,7 +3,10 @@ import dynamic from 'next/dynamic';
 import '@uiw/react-textarea-code-editor/dist.css';
 import { useCallback, useState } from 'react';
 import { Box } from '@theme-ui/components';
-import theme, { SX } from '../styles/theme';
+import theme from '../styles/theme';
+import { useWeb3 } from '../hooks/useWeb3';
+import { useModal } from '../hooks/useModal';
+import { ModalType } from '../providers/ModalManager';
 
 const CodeEditor = dynamic(
   () => import('@uiw/react-textarea-code-editor').then((mod) => mod.default),
@@ -16,6 +19,8 @@ export interface SketchEditorProps {
 
 export default function SketchEditor({ onCodeRun }: SketchEditorProps) {
   const [code, setCode] = useState<string>(testScript);
+  const { account } = useWeb3();
+  const { openModal } = useModal();
 
   const handleChange = useCallback((e) => {
     setCode(e.target.value);
@@ -24,6 +29,14 @@ export default function SketchEditor({ onCodeRun }: SketchEditorProps) {
   const handleRunClick = useCallback(() => {
     onCodeRun(code);
   }, [code]);
+
+  const handleMintClick = useCallback(() => {
+    if (!account) {
+      openModal(ModalType.WEB3_CONNECT);
+    } else {
+      // TODO open mint flow
+    }
+  }, []);
 
   return (
     <>
@@ -48,8 +61,12 @@ export default function SketchEditor({ onCodeRun }: SketchEditorProps) {
       >
         Run
       </Box>
-      <Box sx={theme.button} style={{ textAlign: 'center' }}>
-        Mint
+      <Box
+        sx={theme.button}
+        style={{ textAlign: 'center' }}
+        onClick={handleMintClick}
+      >
+        {account ? 'Mint' : 'Connect to Mint'}
       </Box>
     </>
   );

@@ -1,22 +1,22 @@
-import { Web3ReactContextInterface } from "@web3-react/core/dist/types";
+import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 import {
   createContext,
   useCallback,
   useEffect,
   useMemo,
   useState,
-} from "react";
-import { injected, walletconnect } from "../utils/web3/connectors";
-import { AbstractConnector } from "@web3-react/abstract-connector";
-import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
-import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
-import useAsyncEffect from "use-async-effect";
-import { getFriendlyAddress } from "../utils/web3/addresses";
+} from 'react';
+import { injected, walletconnect } from '../utils/web3/connectors';
+import { AbstractConnector } from '@web3-react/abstract-connector';
+import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
+import useAsyncEffect from 'use-async-effect';
+import { getFriendlyAddress } from '../utils/web3/addresses';
 
 export enum Web3Status {
-  NOT_READY = "NOT_READY",
-  ERROR = "ERROR",
-  READY = "READY",
+  NOT_READY = 'NOT_READY',
+  ERROR = 'ERROR',
+  READY = 'READY',
 }
 
 export interface Web3ManagerState extends Web3ReactContextInterface<any> {
@@ -31,8 +31,8 @@ export const Web3ManagerContext = createContext<Web3ManagerState>(
 );
 
 export enum ConnectorType {
-  WALLETCONNECT = "WALLETCONNECT",
-  INJECTED = "INJECTED",
+  WALLETCONNECT = 'WALLETCONNECT',
+  INJECTED = 'INJECTED',
 }
 
 const connectorLookup: {
@@ -113,11 +113,15 @@ export default function Web3ReactManager({ children }) {
       if (!active || !account || !library) {
         return;
       }
-      const ensName = await library.lookupAddress(account);
+      try {
+        const ensName = await library.lookupAddress(account);
 
-      if (ensName) {
-        setFriendlyName(ensName);
-      } else {
+        if (ensName) {
+          setFriendlyName(ensName);
+        } else {
+          setFriendlyName(getFriendlyAddress(account));
+        }
+      } catch (e) {
         setFriendlyName(getFriendlyAddress(account));
       }
     },
@@ -127,16 +131,16 @@ export default function Web3ReactManager({ children }) {
   return (
     <Web3ManagerContext.Provider
       value={{
-  ...web3react,
-      status,
-      hasInjected,
-      isWrongNetwork,
-      deactivate: handleDeactivate,
-      activate: handleActivate,
-      friendlyName,
-  }}
->
-  {children}
-  </Web3ManagerContext.Provider>
-);
+        ...web3react,
+        status,
+        hasInjected,
+        isWrongNetwork,
+        deactivate: handleDeactivate,
+        activate: handleActivate,
+        friendlyName,
+      }}
+    >
+      {children}
+    </Web3ManagerContext.Provider>
+  );
 }
