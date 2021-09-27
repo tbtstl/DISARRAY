@@ -4,10 +4,12 @@ import {
   encodedBaseHtml,
   encodedScript,
   testScript,
-} from '../utils/constants/testSketch'; //Import this for typechecking and intellisense
+} from '../utils/constants/testSketch';
+import { useMint } from '../hooks/useMint';
 
 export function ChaosSketch({ sketchCode }: { sketchCode: string }) {
   const frame = useRef<HTMLIFrameElement>();
+  const { saveHtmlFromFrame } = useMint();
 
   const handleFrameLoad = useCallback(() => {
     const encoded = Buffer.from(sketchCode).toString('base64');
@@ -19,6 +21,20 @@ export function ChaosSketch({ sketchCode }: { sketchCode: string }) {
   useEffect(() => {
     handleFrameLoad();
   }, [frame.current, sketchCode]);
+
+  useEffect(() => {
+    const onMessage = (e: MessageEvent<any>) => {
+      if (e.data?.length && e.data.length === 2) {
+        saveHtmlFromFrame(e.data[1]);
+      }
+    };
+
+    window.addEventListener('message', onMessage);
+
+    return () => {
+      window.removeEventListener('message', onMessage);
+    };
+  });
 
   if (!isClientSide) {
     return null;

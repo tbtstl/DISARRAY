@@ -6,7 +6,6 @@ import theme from '../../styles/theme';
 
 export default function MintConfirmModal() {
   const { script, name } = useMint();
-  console.log('opening');
   return (
     <ModalContainer title={'Mint'} canClose={true}>
       <Box>YOU ARE ABOUT TO MINT "{name}"</Box>

@@ -1,4 +1,11 @@
-import { createContext, useCallback, useState } from 'react';
+import {
+  createContext,
+  IframeHTMLAttributes,
+  MutableRefObject,
+  useCallback,
+  useRef,
+  useState,
+} from 'react';
 import { testScript } from '../utils/constants/testSketch';
 
 export interface MintManagerState {
@@ -8,7 +15,9 @@ export interface MintManagerState {
   description?: string;
 }
 
-export const MintManagerContext = createContext<MintManagerState>({});
+export const MintManagerContext = createContext<MintManagerState>(
+  {} as MintManagerState
+);
 
 export default function MintManager({ children }) {
   const [state, setState] = useState<MintManagerState>({ script: testScript });
@@ -28,17 +37,12 @@ export default function MintManager({ children }) {
   );
 
   const saveHtmlFromFrame = useCallback(
-    (frame: HTMLIFrameElement) => {
-      const content = frame.contentDocument.documentElement.outerHTML;
-      console.log({ content });
+    (content: string) => {
       const encoded = Buffer.from(content).toString('base64');
-      console.log({ encoded });
-      setState({ ...state, htmlData: `text/html;base64,${encoded}` });
+      setState({ ...state, htmlData: `data:text/html;base64,${encoded}` });
     },
     [state]
   );
-
-  console.log({ state });
 
   return (
     <MintManagerContext.Provider

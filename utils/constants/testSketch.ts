@@ -8,22 +8,33 @@ const baseHtml = `<html>
 
       </head>
       <body>
-        <script id="sketch"></script>
         <script>
+        function clearCanvases() {
+          var canvases = Array.prototype.slice.call(document.getElementsByTagName('canvas'));
+          for(var i = 0; i < canvases.length; i++) {
+            canvases[i].remove();
+          }
+        }
         window.onload = (function() {
+          clearCanvases();
           window.addEventListener('message', function(e) {
             if(e.origin !== "${process.env.NEXT_PUBLIC_VERCEL_URL}") {
               return;
             }
-            var canvases = Array.prototype.slice.call(document.getElementsByTagName('canvas'));
-
-            for(var i = 0; i < canvases.length; i++) {
-              canvases[i].remove();
+            var script;
+            if(document.getElementById("userScript")) {
+              document.getElementById("userScript").remove();
+              clearCanvases();
             }
-
-            var script = document.createElement("script");
+            
+            script = document.createElement('script')
             script.src = e.data;
+            script.id = 'userScript'
             document.body.appendChild(script);
+            // Pass back the origin and the HTML to save
+            // We pass the origin back to quickly see if it came from this IFrame
+            // NOTE: This is insecure, but since we're just passing back our own html and rendering it later in a new iframe it should be ok
+            window.parent.postMessage([e.origin, document.documentElement.outerHTML], "*");
           });
         });
         </script>
@@ -32,7 +43,7 @@ const baseHtml = `<html>
 
 export const encodedBaseHtml = `data:text/html;base64,${Buffer.from(
   baseHtml
-).toString("base64")}`;
+).toString('base64')}`;
 
 export const testScript = `
 // All your code should be inside this function!
@@ -62,4 +73,4 @@ var sketch = function (p) {
 // DO NOT TOUCH
 new p5(sketch);`;
 
-export const encodedScript = Buffer.from(testScript).toString("base64");
+export const encodedScript = Buffer.from(testScript).toString('base64');
