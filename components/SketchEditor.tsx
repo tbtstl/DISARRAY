@@ -31,9 +31,9 @@ export default function SketchEditor() {
     if (!account) {
       openModal(ModalType.WEB3_CONNECT);
     } else {
-      // TODO open mint flow
+      openModal(ModalType.MINT_FORM);
     }
-  }, []);
+  }, [account]);
 
   return (
     <>

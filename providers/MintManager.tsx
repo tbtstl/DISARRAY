@@ -21,15 +21,8 @@ export default function MintManager({ children }) {
   );
 
   const setName = useCallback(
-    (name: string) => {
-      setState({ ...state, name });
-    },
-    [state, setState]
-  );
-
-  const setDescription = useCallback(
-    (description: string) => {
-      setState({ ...state, description });
+    (name: string, description?: string) => {
+      setState({ ...state, name, description });
     },
     [state, setState]
   );
@@ -45,12 +38,13 @@ export default function MintManager({ children }) {
     [state]
   );
 
+  console.log({ state });
+
   return (
     <MintManagerContext.Provider
       value={{
         setScript,
         setName,
-        setDescription,
         saveHtmlFromFrame,
         script: state.script,
         name: state.name,

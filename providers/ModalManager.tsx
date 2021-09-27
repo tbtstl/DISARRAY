@@ -1,15 +1,21 @@
-import ModalRoot from "../components/modal/ModalRoot";
-import { createContext, useCallback, useState } from "react";
-import Web3ConnectModal from "../components/modal/Web3ConnectModal";
+import ModalRoot from '../components/modal/ModalRoot';
+import { createContext, useCallback, useState } from 'react';
+import Web3ConnectModal from '../components/modal/Web3ConnectModal';
+import MintConfirmModal from '../components/modal/MintConfirmModal';
+import MintFormModal from '../components/modal/MintFormModal';
 
 export enum ModalType {
   NONE,
   WEB3_CONNECT,
+  MINT_FORM,
+  MINT_CONFIRM,
 }
 
 const modalMap: Record<ModalType, JSX.Element | null> = {
   [ModalType.NONE]: null,
   [ModalType.WEB3_CONNECT]: <Web3ConnectModal />,
+  [ModalType.MINT_FORM]: <MintFormModal />,
+  [ModalType.MINT_CONFIRM]: <MintConfirmModal />,
 };
 
 export interface ModalContext {
