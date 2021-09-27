@@ -7,7 +7,7 @@ import { useModal } from '../../hooks/useModal';
 import { ModalType } from '../../providers/ModalManager';
 
 export default function MintFormModal() {
-  const { setName, setDescription } = useMint();
+  const { setName } = useMint();
   const { openModal } = useModal();
   return (
     <ModalContainer title={'Mint'} canClose={true}>

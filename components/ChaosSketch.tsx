@@ -15,7 +15,7 @@ export function ChaosSketch({ sketchCode }: { sketchCode: string }) {
     const encoded = Buffer.from(sketchCode).toString('base64');
     const script = `data:text/javascript;base64,${encoded}`;
 
-    frame.current?.contentWindow?.postMessage(script, '*');
+    frame.current?.contentWindow?.postMessage(['newScript', script], '*');
   }, [frame, sketchCode]);
 
   useEffect(() => {
@@ -24,7 +24,9 @@ export function ChaosSketch({ sketchCode }: { sketchCode: string }) {
 
   useEffect(() => {
     const onMessage = (e: MessageEvent<any>) => {
-      if (e.data?.length && e.data.length === 2) {
+      if (e.data?.length && e.data.length === 2 && e.data[0] == 'newScript') {
+        console.log(e.data);
+        console.log('saving html');
         saveHtmlFromFrame(e.data[1]);
       }
     };

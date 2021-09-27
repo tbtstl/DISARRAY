@@ -9,11 +9,38 @@ const baseHtml = `<html>
       </head>
       <body>
         <script>
+        var NEW_SCRIPT = 'newScript'
+        var POST_IMAGE = 'postImage'
         function clearCanvases() {
           var canvases = Array.prototype.slice.call(document.getElementsByTagName('canvas'));
           for(var i = 0; i < canvases.length; i++) {
             canvases[i].remove();
           }
+        }
+        function handleNewScript(newScriptContent) {
+          var script;
+            if(document.getElementById("userScript")) {
+              document.getElementById("userScript").remove();
+              clearCanvases();
+            }
+            
+            
+            script = document.createElement('script')
+            script.src = newScriptContent;
+            script.id = 'userScript'
+            document.body.appendChild(script);
+            // Pass back the HTML to save
+            // NOTE: This is insecure, but since we're just passing back our own html and rendering it later in a new iframe it should be ok
+            window.parent.postMessage([NEW_SCRIPT, document.documentElement.outerHTML], "*");
+        }
+        function handlePostImage() {
+          var canvases = document.getElementsByTagName('canvas')
+          var image = "data:"
+          if(canvases.length) {
+            image = canvases[canvases.length - 1].toDataURL()
+            console.log({image})
+          }
+          window.parent.postMessage([POST_IMAGE, image], "*");
         }
         window.onload = (function() {
           clearCanvases();
@@ -21,20 +48,16 @@ const baseHtml = `<html>
             if(e.origin !== "${process.env.NEXT_PUBLIC_VERCEL_URL}") {
               return;
             }
-            var script;
-            if(document.getElementById("userScript")) {
-              document.getElementById("userScript").remove();
-              clearCanvases();
-            }
             
-            script = document.createElement('script')
-            script.src = e.data;
-            script.id = 'userScript'
-            document.body.appendChild(script);
-            // Pass back the origin and the HTML to save
-            // We pass the origin back to quickly see if it came from this IFrame
-            // NOTE: This is insecure, but since we're just passing back our own html and rendering it later in a new iframe it should be ok
-            window.parent.postMessage([e.origin, document.documentElement.outerHTML], "*");
+            if(!e.data || !e.data.length === 2) {
+              console.log('invalid payload, must be array with length 2')
+              return;
+            }
+            if(e.data[0] === NEW_SCRIPT) {
+              handleNewScript(e.data[1], e.origin)
+            } else if(e.data[0] === POST_IMAGE) {
+              handlePostImage()
+            }
           });
         });
         </script>

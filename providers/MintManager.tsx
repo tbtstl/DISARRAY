@@ -1,16 +1,10 @@
-import {
-  createContext,
-  IframeHTMLAttributes,
-  MutableRefObject,
-  useCallback,
-  useRef,
-  useState,
-} from 'react';
+import { createContext, useCallback, useState } from 'react';
 import { testScript } from '../utils/constants/testSketch';
 
 export interface MintManagerState {
   script: string;
   htmlData?: string;
+  image?: string;
   name?: string;
   description?: string;
 }
@@ -41,7 +35,15 @@ export default function MintManager({ children }) {
       const encoded = Buffer.from(content).toString('base64');
       setState({ ...state, htmlData: `data:text/html;base64,${encoded}` });
     },
-    [state]
+    [state, setState]
+  );
+
+  const saveImageFromFrame = useCallback(
+    (image: string) => {
+      console.log(image);
+      setState({ ...state, image });
+    },
+    [setState, state]
   );
 
   return (
@@ -50,9 +52,11 @@ export default function MintManager({ children }) {
         setScript,
         setName,
         saveHtmlFromFrame,
+        saveImageFromFrame,
         script: state.script,
         name: state.name,
         description: state.description,
+        htmlData: state.htmlData,
       }}
     >
       {children}
