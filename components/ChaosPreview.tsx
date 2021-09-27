@@ -11,8 +11,6 @@ export function ChaosPreview({
   const { htmlData, saveImageFromFrame } = useMint();
   const frame = useRef<HTMLIFrameElement>();
 
-  console.log(htmlData);
-
   if (!isClientSide) {
     return null;
   }
@@ -20,7 +18,6 @@ export function ChaosPreview({
   useEffect(() => {
     const onMessage = (e: MessageEvent<any>) => {
       if (e.data?.length && e.data.length === 2 && e.data[0] == 'postImage') {
-        console.log('saving image');
         saveImageFromFrame(e.data[1]);
       }
     };

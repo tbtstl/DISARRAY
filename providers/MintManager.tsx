@@ -40,11 +40,24 @@ export default function MintManager({ children }) {
 
   const saveImageFromFrame = useCallback(
     (image: string) => {
-      console.log(image);
       setState({ ...state, image });
     },
     [setState, state]
   );
+
+  const prepareMintData = useCallback(() => {
+    const data = {
+      image: state.image,
+      external_url: state.htmlData,
+      description: state.description || '',
+      name: state.name,
+      animation_url: state.htmlData,
+    };
+    const dataJSONString = JSON.stringify(data);
+    return `application/json;base64,${Buffer.from(dataJSONString).toString(
+      'base64'
+    )}`;
+  }, [state]);
 
   return (
     <MintManagerContext.Provider
@@ -53,6 +66,7 @@ export default function MintManager({ children }) {
         setName,
         saveHtmlFromFrame,
         saveImageFromFrame,
+        prepareMintData,
         script: state.script,
         name: state.name,
         description: state.description,

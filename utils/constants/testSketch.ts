@@ -38,7 +38,6 @@ const baseHtml = `<html>
           var image = "data:"
           if(canvases.length) {
             image = canvases[canvases.length - 1].toDataURL()
-            console.log({image})
           }
           window.parent.postMessage([POST_IMAGE, image], "*");
         }

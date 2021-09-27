@@ -25,8 +25,6 @@ export function ChaosSketch({ sketchCode }: { sketchCode: string }) {
   useEffect(() => {
     const onMessage = (e: MessageEvent<any>) => {
       if (e.data?.length && e.data.length === 2 && e.data[0] == 'newScript') {
-        console.log(e.data);
-        console.log('saving html');
         saveHtmlFromFrame(e.data[1]);
       }
     };
