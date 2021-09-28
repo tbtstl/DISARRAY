@@ -17,7 +17,10 @@ const config: HardhatUserConfig = {
       },
     },
   },
-  networks: {
+};
+
+if (process.env.NODE_ENV === 'development') {
+  config.networks = {
     hardhat: {
       chainId: 1337,
     },
@@ -29,7 +32,7 @@ const config: HardhatUserConfig = {
       url: env?.MAINNET_NETWORK_URL || ' ',
       accounts: [`0x${env?.MAINNET_PRIVATE_KEY}`],
     },
-  },
-};
+  };
+}
 
 export default config;
