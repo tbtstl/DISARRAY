@@ -30,6 +30,10 @@ const config: HardhatUserConfig = {
       url: env?.RINKEBY_NETWORK_URL,
       accounts: [`0x${env?.RINKEBY_PRIVATE_KEY}`],
     },
+    mainnet: {
+      url: env?.MAINNET_NETWORK_URL,
+      accounts: [`0x${env?.MAINNET_PRIVATE_KEY}`],
+    },
   },
 };
 

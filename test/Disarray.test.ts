@@ -2,7 +2,7 @@ import chai, { expect } from 'chai';
 import asPromised from 'chai-as-promised';
 import { ethers } from 'hardhat';
 import { Signer } from 'ethers';
-import { Disarray } from '../typechain';
+import { Disarray, ERC721 } from '../typechain';
 
 chai.use(asPromised);
 
@@ -30,6 +30,31 @@ describe('Disarray', () => {
     expect(maxSupply).to.eq(10000);
     expect(name).to.eq('DISARRAY');
     expect(symbol).to.eq('DISARRAY');
+  });
+
+  describe('#supportsInterface', () => {
+    it('should support ERC-721 interface', async () => {
+      expect(await disarray.supportsInterface('0x80ac58cd')).to.eq(true);
+    });
+    it('should support the ERC-721 metadata interface', async () => {
+      expect(await disarray.supportsInterface('0x5b5e139f')).to.eq(true);
+    });
+    it('should support the ERC-721 enumerable interface', async () => {
+      expect(await disarray.supportsInterface('0x780e9d63')).to.eq(true);
+    });
+    it('should support the EIP-2981 interface', async () => {
+      expect(await disarray.supportsInterface('0x2a55205a')).to.eq(true);
+    });
+  });
+
+  describe('#royaltyInfo', () => {
+    it('should return the correc royalty info', async () => {
+      await disarray.connect(minter).mint(await minter.getAddress(), 'TEST');
+      const royaltyInfo = await disarray.royaltyInfo(0, 99);
+
+      expect(royaltyInfo[0]).to.eq(await minter.getAddress());
+      expect(royaltyInfo[1].toNumber()).to.eq(9);
+    });
   });
 
   describe('#tokenURI', () => {
