@@ -6,7 +6,7 @@ import Nav from './Nav';
 import Footer from './Footer';
 import { useModal } from '../hooks/useModal';
 
-export default function Root({ children }) {
+export default function Root({ children }: { children: any }) {
   const modal = useModal();
   return (
     <div>

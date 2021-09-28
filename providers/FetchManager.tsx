@@ -24,8 +24,8 @@ export interface FetchManagerState {
     startIndex: number,
     batchSize: number,
     ownerAddress?: string
-  ) => DisarrayTokenData[];
-  fetchToken: (tokenId: number) => DisarrayTokenData;
+  ) => void;
+  fetchToken: (tokenId: number) => Promise<DisarrayTokenData>;
   loading: boolean;
 }
 
@@ -33,7 +33,7 @@ export const FetchManagerContext = createContext<FetchManagerState>(
   {} as FetchManagerState
 );
 
-export default function FetchManager({ children }) {
+export default function FetchManager({ children }: { children: any }) {
   const { account } = useWeb3();
   const [allTokens, setAllTokens] = useState<DisarrayTokenData[]>([]);
   const [userTokens, setAllUserTokens] = useState<DisarrayTokenData[]>([]);
@@ -44,7 +44,7 @@ export default function FetchManager({ children }) {
   // Instantiate disarray contract
   const disarrayContract = useMemo(() => {
     return Disarray__factory.connect(
-      process.env.NEXT_PUBLIC_DISARRAY_ADDRESS,
+      process.env.NEXT_PUBLIC_DISARRAY_ADDRESS as string,
       defaultProvider
     );
   }, []);
@@ -102,7 +102,7 @@ export default function FetchManager({ children }) {
         return getTokenData(tokenId);
       } catch (e) {
         console.error(e);
-        return {};
+        return {} as DisarrayTokenData;
       } finally {
         setLoading(false);
       }

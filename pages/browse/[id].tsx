@@ -8,8 +8,14 @@ import { defaultProvider } from '../../utils/web3/connectors';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { useFetcher } from '../../hooks/useFetcher';
+import { DisarrayTokenData } from '../../providers/FetchManager';
+import { GetStaticProps } from 'next';
 
-export default function Browse({ tokenData }) {
+export default function Browse({
+  tokenData,
+}: {
+  tokenData: DisarrayTokenData;
+}) {
   const router = useRouter();
   const { allTokenCount } = useFetcher();
 
@@ -78,7 +84,7 @@ export default function Browse({ tokenData }) {
 
 export async function getStaticPaths() {
   const disarrayContract = Disarray__factory.connect(
-    process.env.NEXT_PUBLIC_DISARRAY_ADDRESS,
+    process.env.NEXT_PUBLIC_DISARRAY_ADDRESS as string,
     defaultProvider
   );
   const numTokens = (await disarrayContract.totalSupply()).toNumber();
@@ -90,7 +96,7 @@ export async function getStaticPaths() {
   return { paths, fallback: false };
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps(context: any) {
   const tokenData = await getTokenData(parseInt(context.params.id));
   return {
     props: {

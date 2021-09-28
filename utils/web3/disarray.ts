@@ -5,7 +5,7 @@ import { attemptGetENSName } from './addresses';
 
 export const getTokenData = async (tokenId: number) => {
   const disarrayContract = Disarray__factory.connect(
-    process.env.NEXT_PUBLIC_DISARRAY_ADDRESS,
+    process.env.NEXT_PUBLIC_DISARRAY_ADDRESS as string,
     defaultProvider
   );
 

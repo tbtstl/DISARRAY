@@ -3,9 +3,10 @@ import theme, { SX } from '../../styles/theme';
 
 export interface ModalRootProps {
   showModal: boolean;
+  children: any;
 }
 
-export default function ModalRoot({ children, showModal }) {
+export default function ModalRoot({ children, showModal }: ModalRootProps) {
   return showModal ? <Flex sx={sx.container}>{children}</Flex> : null;
 }
 

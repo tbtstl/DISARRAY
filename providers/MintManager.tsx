@@ -8,17 +8,22 @@ export interface MintManagerState {
   name?: string;
   description?: string;
   ready: boolean;
+  setScript: (script: string) => void;
+  setName: (name: string, description?: string) => void;
+  saveHtmlFromFrame: (content: string) => void;
+  saveImageFromFrame: (image: string) => void;
+  prepareMintData: () => string;
 }
 
 export const MintManagerContext = createContext<MintManagerState>(
   {} as MintManagerState
 );
 
-export default function MintManager({ children }) {
+export default function MintManager({ children }: { children: any }) {
   const [state, setState] = useState<MintManagerState>({
     script: testScript,
     ready: false,
-  });
+  } as MintManagerState);
 
   const setScript = useCallback(
     (script: string) => {

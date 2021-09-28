@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { RefObject, useEffect, useRef } from 'react';
 import { isClientSide } from '../utils/constants/window';
 import { useMint } from '../hooks/useMint';
 import useInterval from '../hooks/useInterval';
@@ -9,7 +9,7 @@ export function DisarrayPreview({
   takeScreenshots: boolean;
 }) {
   const { htmlData, saveImageFromFrame } = useMint();
-  const frame = useRef<HTMLIFrameElement>();
+  const frame = useRef<HTMLIFrameElement>() as RefObject<HTMLIFrameElement>;
 
   if (!isClientSide) {
     return null;

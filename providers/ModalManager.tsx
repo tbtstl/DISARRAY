@@ -28,7 +28,7 @@ export const ModalManagerContext = createContext<ModalContext>(
   {} as ModalContext
 );
 
-export default function ModalManager({ children }) {
+export default function ModalManager({ children }: { children: any }) {
   const [modalType, setModalType] = useState<ModalType>(ModalType.NONE);
 
   const openModal = useCallback((mt: ModalType) => {

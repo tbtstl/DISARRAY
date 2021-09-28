@@ -58,7 +58,7 @@ export default function MintConfirmModal() {
     const disarray = Disarray__factory.connect(
       process.env.NEXT_PUBLIC_DISARRAY_ADDRESS || '',
       await library.getSigner()
-    );
+    ) as Disarray;
     const data = prepareMintData();
 
     try {

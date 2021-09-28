@@ -24,7 +24,7 @@ export interface Web3ManagerState extends Web3ReactContextInterface<any> {
   isWrongNetwork: boolean;
   hasInjected: boolean;
   status: Web3Status;
-  friendlyName: string;
+  friendlyName?: string;
 }
 
 export const Web3ManagerContext = createContext<Web3ManagerState>(
@@ -43,7 +43,7 @@ const connectorLookup: {
   [ConnectorType.INJECTED]: injected,
 };
 
-export default function Web3ReactManager({ children }) {
+export default function Web3ReactManager({ children }: { children: any }) {
   const web3react = useWeb3React();
   const [hasInjected, setHasInjected] = useState<boolean>(false);
   const [status, setStatus] = useState<Web3Status>(Web3Status.NOT_READY);
@@ -86,6 +86,7 @@ export default function Web3ReactManager({ children }) {
   );
 
   useEffect(() => {
+    // @ts-ignore
     if (!hasInjected && window && window.ethereum) {
       setHasInjected(true);
     }

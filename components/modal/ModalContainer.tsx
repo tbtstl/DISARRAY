@@ -5,9 +5,14 @@ import { useModal } from '../../hooks/useModal';
 export interface ModalContainerProps {
   title: string;
   canClose?: boolean;
+  children: any;
 }
 
-export default function ModalContainer({ children, title, canClose }) {
+export default function ModalContainer({
+  children,
+  title,
+  canClose,
+}: ModalContainerProps) {
   const { closeModal } = useModal();
   return (
     <Flex sx={sx.container}>

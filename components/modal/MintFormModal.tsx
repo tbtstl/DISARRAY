@@ -47,6 +47,7 @@ export default function MintFormModal() {
                   as={Input}
                   sx={sx.input}
                 />
+                {/* @ts-ignore */}
                 <Box sx={theme.button} onClick={handleSubmit}>
                   Continue
                 </Box>

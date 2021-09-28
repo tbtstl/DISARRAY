@@ -9,6 +9,7 @@ import { ModalType } from '../providers/ModalManager';
 import { useMint } from '../hooks/useMint';
 
 const CodeEditor = dynamic(
+  // @ts-ignore
   () => import('@uiw/react-textarea-code-editor').then((mod) => mod.default),
   { ssr: false }
 );
@@ -38,6 +39,7 @@ export default function SketchEditor() {
   return (
     <>
       <CodeEditor
+        // @ts-ignore
         value={script}
         language="js"
         placeholder="Please enter JS code."

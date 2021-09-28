@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { RefObject, useCallback, useEffect, useRef } from 'react';
 import { isClientSide } from '../utils/constants/window';
 import {
   encodedBaseHtml,
@@ -8,7 +8,7 @@ import {
 import { useMint } from '../hooks/useMint';
 
 export function DisarraySketch({ sketchCode }: { sketchCode: string }) {
-  const frame = useRef<HTMLIFrameElement>();
+  const frame = useRef<HTMLIFrameElement>() as RefObject<HTMLIFrameElement>;
   const { saveHtmlFromFrame } = useMint();
 
   const handleFrameLoad = useCallback(() => {
