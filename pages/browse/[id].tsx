@@ -13,6 +13,30 @@ export default function Browse({ tokenData }) {
         <Box>
           <TokenViewer tokenData={tokenData} />
         </Box>
+        <Box>
+          <Flex sx={sx.infoContainer}>
+            <Box style={{ height: 60 }}>
+              <h1>"{tokenData.name}"</h1>
+            </Box>
+            <Box style={{ flex: 1 }}>
+              <h5>{tokenData.description}</h5>
+            </Box>
+            {tokenData.creatorAddress === tokenData.ownerAddress ? (
+              <Box style={{ height: 60 }}>
+                Created and Owned by <h5>{tokenData.creatorAddress}</h5>
+              </Box>
+            ) : (
+              <>
+                <Box style={{ height: 60 }}>
+                  Created by <h5>{tokenData.creatorAddress}</h5>
+                </Box>
+                <Box style={{ height: 60 }}>
+                  Owned by <h5>{tokenData.ownerAddress}</h5>
+                </Box>
+              </>
+            )}
+          </Flex>
+        </Box>
       </Flex>
     </Root>
   );
@@ -47,5 +71,8 @@ const sx: SX = {
     height: '100%',
     alignItems: 'center',
     justifyContent: 'space-around',
+  },
+  infoContainer: {
+    flexDirection: 'column',
   },
 };
