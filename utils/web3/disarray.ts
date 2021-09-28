@@ -17,9 +17,7 @@ export const getTokenData = async (tokenId: number) => {
   let name, description, htmlData;
   try {
     // Remove first 29 characters (29 = length of "data:application/json;base64,")
-    console.log(Buffer.from(uri.substring(29), 'base64').toString());
     const jsonString = Buffer.from(uri.substring(29), 'base64').toString();
-    console.log({ jsonString });
     const uriJSON = JSON.parse(jsonString);
     name = uriJSON.name;
     description = uriJSON.description;

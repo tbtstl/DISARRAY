@@ -63,7 +63,6 @@ export default function MintManager({ children }) {
       name: state.name,
       animation_url: state.htmlData,
     };
-    console.log(data.image);
     const dataJSONString = JSON.stringify(data);
     return `data:application/json;base64,${Buffer.from(dataJSONString).toString(
       'base64'
