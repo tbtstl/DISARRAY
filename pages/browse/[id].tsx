@@ -1,12 +1,38 @@
 import Root from '../../components/Root';
 import { Box, Flex } from '@theme-ui/components';
 import TokenViewer from '../../components/TokenViewer';
-import { SX } from '../../styles/theme';
+import theme, { SX } from '../../styles/theme';
 import { getTokenData } from '../../utils/web3/chaos';
 import { Chaos__factory } from '../../typechain';
 import { defaultProvider } from '../../utils/web3/connectors';
+import { useRouter } from 'next/router';
+import { useCallback } from 'react';
+import { useFetcher } from '../../hooks/useFetcher';
 
 export default function Browse({ tokenData }) {
+  const router = useRouter();
+  const { allTokenCount } = useFetcher();
+
+  const handlePrev = useCallback(async () => {
+    const id = parseInt(router.query.id as string);
+
+    if (id === 0) {
+      await router.push('/');
+    } else {
+      await router.push(`/browse/${id - 1}`);
+    }
+  }, [router]);
+
+  const handleNext = useCallback(async () => {
+    const id = parseInt(router.query.id as string);
+
+    if (id === allTokenCount - 1) {
+      await router.push('/create');
+    } else {
+      await router.push(`/browse/${id + 1}`);
+    }
+  }, [router, allTokenCount]);
+
   return (
     <Root>
       <Flex sx={sx.flexContainer}>
@@ -36,6 +62,14 @@ export default function Browse({ tokenData }) {
               </>
             )}
           </Flex>
+        </Box>
+      </Flex>
+      <Flex sx={sx.navContainer}>
+        <Box onClick={handlePrev} sx={theme.button}>
+          ← Prev
+        </Box>
+        <Box sx={theme.button} onClick={handleNext}>
+          Next →
         </Box>
       </Flex>
     </Root>
@@ -68,11 +102,16 @@ export async function getStaticProps(context) {
 
 const sx: SX = {
   flexContainer: {
-    height: '100%',
+    height: '85%',
     alignItems: 'center',
     justifyContent: 'space-around',
   },
   infoContainer: {
     flexDirection: 'column',
+  },
+  navContainer: {
+    height: '15%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 };
