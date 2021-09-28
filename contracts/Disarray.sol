@@ -5,7 +5,7 @@ pragma solidity 0.8.5;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract Chaos is ERC721Enumerable {
+contract Disarray is ERC721Enumerable {
     address public owner;
     uint256 public maxSupply;
     mapping(uint256 => address) public tokenCreators;
@@ -18,7 +18,7 @@ contract Chaos is ERC721Enumerable {
         _;
     }
 
-    constructor() ERC721("CHAOS", "CHAOS") {
+    constructor() ERC721("DISARRAY", "DISARRAY") {
         owner = msg.sender;
         maxSupply = 10000;
     }

@@ -16,7 +16,7 @@ export default function Nav() {
     <Flex sx={sx.container}>
       <Link href={'/'}>
         <Box sx={sx.brand} as="a">
-          CHAOS
+          DISARRAY
         </Box>
       </Link>
       {status === Web3Status.READY ? (

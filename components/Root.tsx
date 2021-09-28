@@ -11,7 +11,7 @@ export default function Root({ children }) {
   return (
     <div>
       <Head>
-        <title>C̴̡̆̕͝H̸̡̧͊͌̑Â̴̺̩̽O̴͈̠̒̓̓S̷̭͇̆͝</title>
+        <title>D̵̺̿͘Ì̸̺̼̯S̵͎̠̐̀͂A̸̧̦̭̿Ŗ̴͉̦̏Ŗ̵̰̮̉̿A̸̪̲͕͑̄̐Ý̸̙</title>
         <meta name="description" content="Chaotic Canvas NFTs" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />

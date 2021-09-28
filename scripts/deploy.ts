@@ -1,13 +1,16 @@
 import { ethers } from 'hardhat';
 
 async function main() {
-  const ChaosFactory = await ethers.getContractFactory('Chaos');
-  const chaos = await ChaosFactory.deploy();
-  console.log('deploying chaos with tx hash ', chaos.deployTransaction.hash);
+  const DisarrayFactory = await ethers.getContractFactory('Disarray');
+  const disarray = await DisarrayFactory.deploy();
+  console.log(
+    'deploying disarray with tx hash ',
+    disarray.deployTransaction.hash
+  );
 
-  await chaos.deployed();
+  await disarray.deployed();
 
-  console.log('Chaos deployed to:', chaos.address);
+  console.log('Disarray deployed to:', disarray.address);
 }
 
 main()

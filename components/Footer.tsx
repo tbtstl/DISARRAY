@@ -7,20 +7,20 @@ export default function Footer() {
     <Box sx={sx.tickerWrap}>
       <Box sx={sx.ticker}>
         <Box sx={sx.tickerText}>
-          CHAOS is an NFT project that allows anyone to own and customize their
-          own on-page canvas.{' '}
+          DISARRAY is an NFT project that allows anyone to own and customize
+          their own on-page canvas.{' '}
         </Box>
         <Box sx={sx.tickerText}>
-          CHAOS is an NFT project that allows anyone to own and customize their
-          own on-page canvas.{' '}
+          DISARRAY is an NFT project that allows anyone to own and customize
+          their own on-page canvas.{' '}
         </Box>
         <Box sx={sx.tickerText}>
-          CHAOS is an NFT project that allows anyone to own and customize their
-          own on-page canvas.{' '}
+          DISARRAY is an NFT project that allows anyone to own and customize
+          their own on-page canvas.{' '}
         </Box>
         <Box sx={sx.tickerText}>
-          CHAOS is an NFT project that allows anyone to own and customize their
-          own on-page canvas.{' '}
+          DISARRAY is an NFT project that allows anyone to own and customize
+          their own on-page canvas.{' '}
         </Box>
       </Box>
     </Box>

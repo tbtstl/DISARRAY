@@ -1,18 +1,18 @@
 import { useCallback } from 'react';
-import { Chaos__factory } from '../../typechain';
+import { Disarray__factory } from '../../typechain';
 import { defaultProvider } from './connectors';
 import { attemptGetENSName } from './addresses';
 
 export const getTokenData = async (tokenId: number) => {
-  const chaosContract = Chaos__factory.connect(
-    process.env.NEXT_PUBLIC_CHAOS_ADDRESS,
+  const disarrayContract = Disarray__factory.connect(
+    process.env.NEXT_PUBLIC_DISARRAY_ADDRESS,
     defaultProvider
   );
 
-  const uri = await chaosContract.tokenURI(tokenId);
-  const creatorAddress = await chaosContract.tokenCreators(tokenId);
+  const uri = await disarrayContract.tokenURI(tokenId);
+  const creatorAddress = await disarrayContract.tokenCreators(tokenId);
   const creatorName = await attemptGetENSName(creatorAddress);
-  const ownerAddress = await chaosContract.ownerOf(tokenId);
+  const ownerAddress = await disarrayContract.ownerOf(tokenId);
   const ownerName = await attemptGetENSName(ownerAddress);
   let name, description, htmlData;
   try {

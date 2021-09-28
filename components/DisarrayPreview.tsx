@@ -3,7 +3,7 @@ import { isClientSide } from '../utils/constants/window';
 import { useMint } from '../hooks/useMint';
 import useInterval from '../hooks/useInterval';
 
-export function ChaosPreview({
+export function DisarrayPreview({
   takeScreenshots = false,
 }: {
   takeScreenshots: boolean;

@@ -7,7 +7,7 @@ import {
 } from '../utils/constants/testSketch';
 import { useMint } from '../hooks/useMint';
 
-export function ChaosSketch({ sketchCode }: { sketchCode: string }) {
+export function DisarraySketch({ sketchCode }: { sketchCode: string }) {
   const frame = useRef<HTMLIFrameElement>();
   const { saveHtmlFromFrame } = useMint();
 

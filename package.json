@@ -1,5 +1,5 @@
 {
-  "name": "chaos",
+  "name": "disarray",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -39,6 +39,7 @@
     "@types/react": "17.0.24",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
+    "dotenv": "^10.0.0",
     "hardhat": "^2.6.4",
     "hardhat-typechain": "^0.3.5",
     "husky": ">=6",

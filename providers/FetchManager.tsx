@@ -1,11 +1,11 @@
 import { createContext, useCallback, useMemo, useState } from 'react';
 import { useWeb3 } from '../hooks/useWeb3';
-import { Chaos__factory } from '../typechain';
+import { Disarray__factory } from '../typechain';
 import useAsyncEffect from 'use-async-effect';
 import { defaultProvider } from '../utils/web3/connectors';
-import { getTokenData } from '../utils/web3/chaos';
+import { getTokenData } from '../utils/web3/disarray';
 
-export interface ChaosTokenData {
+export interface DisarrayTokenData {
   creatorAddress: string;
   creatorName: string;
   ownerAddress: string;
@@ -16,16 +16,16 @@ export interface ChaosTokenData {
 }
 
 export interface FetchManagerState {
-  allTokens: ChaosTokenData[];
+  allTokens: DisarrayTokenData[];
   allTokenCount: number;
-  userTokens: ChaosTokenData[];
+  userTokens: DisarrayTokenData[];
   userTokenCount: number;
   fetchTokens: (
     startIndex: number,
     batchSize: number,
     ownerAddress?: string
-  ) => ChaosTokenData[];
-  fetchToken: (tokenId: number) => ChaosTokenData;
+  ) => DisarrayTokenData[];
+  fetchToken: (tokenId: number) => DisarrayTokenData;
   loading: boolean;
 }
 
@@ -35,36 +35,35 @@ export const FetchManagerContext = createContext<FetchManagerState>(
 
 export default function FetchManager({ children }) {
   const { account } = useWeb3();
-  const [allTokens, setAllTokens] = useState<ChaosTokenData[]>([]);
-  const [userTokens, setAllUserTokens] = useState<ChaosTokenData[]>([]);
+  const [allTokens, setAllTokens] = useState<DisarrayTokenData[]>([]);
+  const [userTokens, setAllUserTokens] = useState<DisarrayTokenData[]>([]);
   const [allTokenCount, setAllTokenCount] = useState<number>(0);
   const [userTokenCount, setUserTokenCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
-  // Instantiate chaos contract
-  const chaosContract = useMemo(() => {
-    return Chaos__factory.connect(
-      process.env.NEXT_PUBLIC_CHAOS_ADDRESS,
+  // Instantiate disarray contract
+  const disarrayContract = useMemo(() => {
+    return Disarray__factory.connect(
+      process.env.NEXT_PUBLIC_DISARRAY_ADDRESS,
       defaultProvider
     );
   }, []);
 
   // Fetch user and all token counts
   useAsyncEffect(async () => {
-    console.log({ chaosContract });
-    if (!chaosContract) {
+    if (!disarrayContract) {
       return;
     }
 
     setLoading(true);
 
     if (account) {
-      setUserTokenCount((await chaosContract.balanceOf(account)).toNumber());
+      setUserTokenCount((await disarrayContract.balanceOf(account)).toNumber());
     }
 
-    setAllTokenCount((await chaosContract.totalSupply()).toNumber());
+    setAllTokenCount((await disarrayContract.totalSupply()).toNumber());
     setLoading(false);
-  }, [account, chaosContract]);
+  }, [account, disarrayContract]);
 
   const fetchAllTokens = useCallback(
     async (startIndex: number, batchSize: number) => {
@@ -108,7 +107,7 @@ export default function FetchManager({ children }) {
         setLoading(false);
       }
     },
-    [chaosContract]
+    [disarrayContract]
   );
 
   return (

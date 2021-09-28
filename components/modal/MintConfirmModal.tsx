@@ -2,10 +2,10 @@ import ModalContainer from './ModalContainer';
 import { useMint } from '../../hooks/useMint';
 import { Box } from '@theme-ui/components';
 import theme from '../../styles/theme';
-import { ChaosPreview } from '../ChaosPreview';
+import { DisarrayPreview } from '../DisarrayPreview';
 import { useCallback, useEffect, useState } from 'react';
 import { useWeb3 } from '../../hooks/useWeb3';
-import { Chaos, Chaos__factory } from '../../typechain';
+import { Disarray, Disarray__factory } from '../../typechain';
 import { useRouter } from 'next/router';
 
 enum MintingState {
@@ -46,14 +46,14 @@ export default function MintConfirmModal() {
     if (mintingState !== MintingState.READY) {
       return;
     }
-    const chaos = Chaos__factory.connect(
-      process.env.NEXT_PUBLIC_CHAOS_ADDRESS || '',
+    const disarray = Disarray__factory.connect(
+      process.env.NEXT_PUBLIC_DISARRAY_ADDRESS || '',
       await library.getSigner()
     );
     const data = prepareMintData();
 
     try {
-      const tx = await chaos.mint(account, data);
+      const tx = await disarray.mint(account, data);
       setMintingState(MintingState.BROADCASTED);
       await tx.wait();
       setMintingState(MintingState.CONFIRMED);
@@ -81,7 +81,7 @@ export default function MintConfirmModal() {
     <ModalContainer title={'Mint'} canClose={true}>
       <Box>YOU ARE ABOUT TO MINT "{name}"</Box>
       <Box>
-        <ChaosPreview takeScreenshots={true} />
+        <DisarrayPreview takeScreenshots={true} />
       </Box>
       <Box sx={theme.button} onClick={handleMint}>
         {buttonText}

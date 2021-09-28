@@ -2,8 +2,8 @@ import Root from '../../components/Root';
 import { Box, Flex } from '@theme-ui/components';
 import TokenViewer from '../../components/TokenViewer';
 import theme, { SX } from '../../styles/theme';
-import { getTokenData } from '../../utils/web3/chaos';
-import { Chaos__factory } from '../../typechain';
+import { getTokenData } from '../../utils/web3/disarray';
+import { Disarray__factory } from '../../typechain';
 import { defaultProvider } from '../../utils/web3/connectors';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
@@ -77,11 +77,11 @@ export default function Browse({ tokenData }) {
 }
 
 export async function getStaticPaths() {
-  const chaosContract = Chaos__factory.connect(
-    process.env.NEXT_PUBLIC_CHAOS_ADDRESS,
+  const disarrayContract = Disarray__factory.connect(
+    process.env.NEXT_PUBLIC_DISARRAY_ADDRESS,
     defaultProvider
   );
-  const numTokens = (await chaosContract.totalSupply()).toNumber();
+  const numTokens = (await disarrayContract.totalSupply()).toNumber();
 
   const paths = [...Array(numTokens).keys()].map((id) => ({
     params: { id: id.toString() },

@@ -1,6 +1,6 @@
 import Root from '../components/Root';
 import { Box, Flex } from '@theme-ui/components';
-import { ChaosSketch } from '../components/ChaosSketch';
+import { DisarraySketch } from '../components/DisarraySketch';
 import SketchEditor from '../components/SketchEditor';
 import { SX } from '../styles/theme';
 import { useMint } from '../hooks/useMint';
@@ -11,7 +11,7 @@ export default function Create() {
     <Root>
       <Flex sx={sx.createContainer}>
         <Box>
-          <ChaosSketch sketchCode={script} />
+          <DisarraySketch sketchCode={script} />
         </Box>
         <Box>
           <SketchEditor />
