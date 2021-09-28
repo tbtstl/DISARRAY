@@ -45,10 +45,6 @@ const baseHtml = `<html>
         window.onload = (function() {
           clearCanvases();
           window.addEventListener('message', function(e) {
-            if(e.origin !== "${process.env.NEXT_PUBLIC_VERCEL_URL}") {
-              return;
-            }
-            
             if(!e.data || !e.data.length === 2) {
               console.log('invalid payload, must be array with length 2')
               return;
