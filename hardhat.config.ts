@@ -7,11 +7,6 @@ import dotenv from 'dotenv';
 const d = dotenv.config();
 const env = d.parsed;
 
-if (d.error || !d.parsed) {
-  console.error(d.error);
-  process.exit(1);
-}
-
 const config: HardhatUserConfig = {
   solidity: {
     version: '0.8.5',
@@ -27,11 +22,11 @@ const config: HardhatUserConfig = {
       chainId: 1337,
     },
     rinkeby: {
-      url: env?.RINKEBY_NETWORK_URL,
+      url: env?.RINKEBY_NETWORK_URL || ' ',
       accounts: [`0x${env?.RINKEBY_PRIVATE_KEY}`],
     },
     mainnet: {
-      url: env?.MAINNET_NETWORK_URL,
+      url: env?.MAINNET_NETWORK_URL || ' ',
       accounts: [`0x${env?.MAINNET_PRIVATE_KEY}`],
     },
   },
