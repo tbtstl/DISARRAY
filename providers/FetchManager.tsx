@@ -1,21 +1,15 @@
-import {
-  createContext,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { createContext, useCallback, useMemo, useState } from 'react';
 import { useWeb3 } from '../hooks/useWeb3';
 import { Chaos__factory } from '../typechain';
 import useAsyncEffect from 'use-async-effect';
 import { defaultProvider } from '../utils/web3/connectors';
+import { getTokenData } from '../utils/web3/chaos';
 
 export interface ChaosTokenData {
   creatorAddress: string;
-  // TODO use an ENS manager to memoize these lookups
-  // creatorFriendlyName: string;
+  creatorName: string;
   ownerAddress: string;
-  // ownerFriendlyName: string;
+  ownerName?: string;
   htmlData: string;
   name: string;
   description?: string;
@@ -71,43 +65,6 @@ export default function FetchManager({ children }) {
     setAllTokenCount((await chaosContract.totalSupply()).toNumber());
     setLoading(false);
   }, [account, chaosContract]);
-
-  const getTokenData = useCallback(
-    async (tokenId: number) => {
-      if (!chaosContract) {
-        return {};
-      }
-
-      const uri = await chaosContract.tokenURI(tokenId);
-      const creatorAddress = await chaosContract.tokenCreators(tokenId);
-      const ownerAddress = await chaosContract.ownerOf(tokenId);
-      let name, description, htmlData;
-      try {
-        console.log(uri);
-        // Remove first 29 characters (29 = length of "data:application/json;base64,")
-        console.log(atob(uri.substring(29)));
-        const jsonString = Buffer.from(uri.substring(29), 'base64').toString();
-        console.log({ jsonString });
-        const uriJSON = JSON.parse(jsonString);
-        name = uriJSON.name;
-        description = uriJSON.description;
-        htmlData = uriJSON.animation_url;
-      } catch (e) {
-        console.error('Error fetching token ', tokenId);
-        console.error(e);
-      }
-
-      return {
-        creatorAddress,
-        ownerAddress,
-        name,
-        description,
-        htmlData,
-        uri,
-      };
-    },
-    [chaosContract]
-  );
 
   const fetchAllTokens = useCallback(
     async (startIndex: number, batchSize: number) => {

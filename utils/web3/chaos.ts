@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { Chaos__factory } from '../../typechain';
 import { defaultProvider } from './connectors';
+import { attemptGetENSName } from './addresses';
 
 export const getTokenData = async (tokenId: number) => {
   const chaosContract = Chaos__factory.connect(
@@ -10,7 +11,9 @@ export const getTokenData = async (tokenId: number) => {
 
   const uri = await chaosContract.tokenURI(tokenId);
   const creatorAddress = await chaosContract.tokenCreators(tokenId);
+  const creatorName = await attemptGetENSName(creatorAddress);
   const ownerAddress = await chaosContract.ownerOf(tokenId);
+  const ownerName = await attemptGetENSName(ownerAddress);
   let name, description, htmlData;
   try {
     // Remove first 29 characters (29 = length of "data:application/json;base64,")
@@ -29,6 +32,8 @@ export const getTokenData = async (tokenId: number) => {
   return {
     creatorAddress,
     ownerAddress,
+    creatorName,
+    ownerName,
     name,
     description,
     htmlData,
