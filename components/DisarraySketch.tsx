@@ -1,18 +1,18 @@
 import React, { RefObject, useCallback, useEffect, useRef } from 'react';
 import { isClientSide } from '../utils/constants/window';
-import {
-  encodedBaseHtml,
-  encodedScript,
-  testScript,
-} from '../utils/constants/testSketch';
+import { encodedBaseHtml } from '../utils/constants/testSketch';
 import { useMint } from '../hooks/useMint';
 
 export function DisarraySketch({ sketchCode }: { sketchCode: string }) {
   const frame = useRef<HTMLIFrameElement>() as RefObject<HTMLIFrameElement>;
   const { saveHtmlFromFrame } = useMint();
 
-  const handleFrameLoad = useCallback(() => {
-    const encoded = Buffer.from(sketchCode).toString('base64');
+  const handleFrameLoad = useCallback(async () => {
+    const res = await fetch('/api/compressJS', {
+      method: 'POST',
+      body: sketchCode,
+    });
+    const { encoded } = await res.json();
     const script = `data:text/javascript;base64,${encoded}`;
 
     frame.current?.contentWindow?.postMessage(['newScript', script], '*');

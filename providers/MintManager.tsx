@@ -40,8 +40,12 @@ export default function MintManager({ children }: { children: any }) {
   );
 
   const saveHtmlFromFrame = useCallback(
-    (content: string) => {
-      const encoded = Buffer.from(content).toString('base64');
+    async (content: string) => {
+      const res = await fetch('/api/compressHTML', {
+        method: 'POST',
+        body: content,
+      });
+      const { encoded } = await res.json();
       setState({ ...state, htmlData: `data:text/html;base64,${encoded}` });
     },
     [state, setState]
