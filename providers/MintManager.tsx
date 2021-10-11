@@ -49,13 +49,13 @@ export default function MintManager({ children }: { children: any }) {
 
   const saveImageFromFrame = useCallback(
     (image: string) => {
-      setState({ ...state, image });
+      // NOOP, save gas and animation_url is a sufficient fallback
     },
     [setState, state]
   );
 
   useEffect(() => {
-    if (state.name && state.image && state.script && !state.ready) {
+    if (state.name && state.script && !state.ready) {
       setState({ ...state, ready: true });
     }
   }, [state, setState]);
