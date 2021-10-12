@@ -67,7 +67,6 @@ export default function MintManager({ children }: { children: any }) {
   const prepareMintData = useCallback(() => {
     const data = {
       image: state.image,
-      external_url: state.htmlData,
       description: state.description || '',
       name: state.name,
       animation_url: state.htmlData,
